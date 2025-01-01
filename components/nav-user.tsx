@@ -64,6 +64,10 @@ export function NavUser() {
     return <div>Loading...</div>
   }
 
+  const handleNavigation = (path: string) => {
+    router.push(path)
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -104,22 +108,22 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigation('/dashboard/user/upgrade')}>
                 <Sparkles />
                 Upgrade to Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigation('/dashboard/user/account')}>
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigation('/dashboard/user/billing')}>
                 <CreditCard />
                 Billing
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigation('/dashboard/user/notifications')}>
                 <Bell />
                 Notifications
               </DropdownMenuItem>
