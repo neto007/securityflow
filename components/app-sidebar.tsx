@@ -1,6 +1,13 @@
 "use client"
 
 import * as React from "react"
+
+import { createClient } from '@/lib/supabase/client'
+import { useEffect, useState } from 'react'
+import { User } from '@supabase/supabase-js'
+import { useRouter } from 'next/navigation'
+
+
 import { BookOpen, Bot, Command, Frame, GalleryVerticalEnd, Map, PieChart, Settings2, SquareTerminal } from 'lucide-react'
 
 import { NavMain } from "./nav-main"
@@ -135,7 +142,27 @@ const data = {
   ],
 }
 
+
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const router = useRouter()
+  const supabase = createClient()
+  const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    async function fetchUser() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.push('/')
+        return
+      }
+      setUser(user)
+    }
+    fetchUser()
+  }, [])
+
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -146,7 +173,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

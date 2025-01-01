@@ -34,23 +34,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
-export function NavUser() {
+export function NavUser( { user }: { user: User } ) {
   const router = useRouter()
   const supabase = createClient()
   const { isMobile } = useSidebar()
-  const [user, setUser] = useState<User | null>(null)
-
-  useEffect(() => {
-    async function fetchUser() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/')
-        return
-      }
-      setUser(user)
-    }
-    fetchUser()
-  }, [])
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut()
@@ -121,7 +108,7 @@ export function NavUser() {
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleNavigation('/dashboard/user/billing')}>
                 <CreditCard />
-                Billing
+                Billing History
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleNavigation('/dashboard/user/notifications')}>
                 <Bell />
